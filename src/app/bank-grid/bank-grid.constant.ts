@@ -1,0 +1,3 @@
+export const CITIES = ['CALICUT', 'BANGALORE', 'KOCHI', 'TRIVANDRUM', 'CHENNAI'];
+
+export const DEFAULT_PAGE_SIZE = 20;
