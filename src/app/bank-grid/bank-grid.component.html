@@ -1,157 +1,164 @@
 <header>
-    <h3><i class="fas fa-piggy-bank"></i> Bank Finder</h3>
-    <div class="form-group">
-      <input
-        [(ngModel)]="searchKeyWord"
-        type="text"
-        name="search"
-        id="Search"
-        placeholder="Search"
-        (keydown)="searchBankData($event)"
-      />
-      <div class="city-container">
-        <div (click)="toggleDropDown()">
-          <span class="selected-city">{{ selectedCity }}</span>
-          <span>
-            <i
-              class="fas"
-              [ngClass]="{
-                'fa-chevron-circle-down': !cityDropDownOpen,
-                'fa-chevron-circle-up': cityDropDownOpen
-              }"
-            ></i>
-          </span>
-        </div>
-        <ul class="city-options" [ngClass]="{ visible: cityDropDownOpen }">
-          <li *ngFor="let city of cities" (click)="changeCity(city)">
-            {{ city }}
-          </li>
-        </ul>
+  <h3><i class="fas fa-piggy-bank"></i> Bank Finder</h3>
+  <div class="form-group">
+    <input
+      [(ngModel)]="searchKeyWord"
+      type="text"
+      name="search"
+      id="Search"
+      placeholder="Search"
+      (keydown)="searchBankData($event)"
+    />
+    <div class="city-container">
+      <div (click)="toggleDropDown()">
+        <span class="selected-city">{{ selectedCity }}</span>
+        <span>
+          <i
+            class="fas"
+            [ngClass]="{
+              'fa-chevron-circle-down': !cityDropDownOpen,
+              'fa-chevron-circle-up': cityDropDownOpen
+            }"
+          ></i>
+        </span>
       </div>
+      <ul class="city-options" [ngClass]="{ visible: cityDropDownOpen }">
+        <li *ngFor="let city of cities" (click)="changeCity(city)">
+          {{ city }}
+        </li>
+      </ul>
     </div>
-  </header>
-  <div class="table-container" *ngIf="favourites.length">
-    <h4>Favourites</h4>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Branch</th>
-          <th>IFSC</th>
-          <th>Address</th>
-          <th>City</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let bankDataRow of favourites">
-          <tr class="data-row" (click)="openBankPage(bankDataRow.bank_id)">
-            <td>
-              <i
-                class="fa-star star-icon"
-                [ngClass]="{
-                  far: !ifscCodesInFavourites.includes(bankDataRow.ifsc),
-                  'fas selected': ifscCodesInFavourites.includes(bankDataRow.ifsc)
-                }"
-                (click)="manageFavourites($event, bankDataRow)"
-              ></i>
-            </td>
-            <td>{{ bankDataRow.bank_name }}</td>
-            <td>{{ bankDataRow.branch }}</td>
-            <td>{{ bankDataRow.ifsc }}</td>
-            <td>{{ bankDataRow.address }}</td>
-            <td>{{ bankDataRow.city }}</td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
   </div>
-  <div class="table-container">
-    <h4>Bank Details</h4>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Branch</th>
-          <th>IFSC</th>
-          <th>Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let bankDataRow of bankData">
-          <tr *ngIf="!isLoading" class="data-row" (click)="openBankPage(bankDataRow.bank_id)">
-            <td>
-              <i
-                class="fa-star star-icon"
-                [ngClass]="{
-                  far: !ifscCodesInFavourites.includes(bankDataRow.ifsc),
-                  'fas selected': ifscCodesInFavourites.includes(bankDataRow.ifsc)
-                }"
-                (click)="manageFavourites($event, bankDataRow)"
-              ></i>
-            </td>
-            <td>{{ bankDataRow.bank_name }}</td>
-            <td>{{ bankDataRow.branch }}</td>
-            <td>{{ bankDataRow.ifsc }}</td>
-            <td>{{ bankDataRow.address }}</td>
-          </tr>
-        </ng-container>
-        <tr *ngIf="!isLoading && !bankData.length">
-          <td colspan="5">
-            <div class="u-textCenter">
-              No Data Found
-            </div>
+</header>
+<div class="table-container" *ngIf="favourites.length">
+  <h4>Favourites</h4>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Branch</th>
+        <th>IFSC</th>
+        <th>Address</th>
+        <th>City</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let bankDataRow of favourites">
+        <tr class="data-row" (click)="openBankPage(bankDataRow.bank_id)">
+          <td>
+            <i
+              class="fa-star star-icon"
+              [ngClass]="{
+                far: !ifscCodesInFavourites.includes(bankDataRow.ifsc),
+                'fas selected': ifscCodesInFavourites.includes(bankDataRow.ifsc)
+              }"
+              (click)="manageFavourites($event, bankDataRow)"
+            ></i>
           </td>
+          <td>{{ bankDataRow.bank_name }}</td>
+          <td>{{ bankDataRow.branch }}</td>
+          <td>{{ bankDataRow.ifsc }}</td>
+          <td>{{ bankDataRow.address }}</td>
+          <td>{{ bankDataRow.city }}</td>
         </tr>
-        <tr *ngIf="isLoading">
-          <td colspan="5">
-            <div class="u-textCenter">
-              Loading...
-            </div>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div class="table-container">
+  <h4>Bank Details</h4>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Branch</th>
+        <th>IFSC</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let bankDataRow of bankData">
+        <tr
+          *ngIf="!isLoading"
+          class="data-row"
+          (click)="openBankPage(bankDataRow.bank_id)"
+        >
+          <td>
+            <i
+              class="fa-star star-icon"
+              [ngClass]="{
+                far: !ifscCodesInFavourites.includes(bankDataRow.ifsc),
+                'fas selected': ifscCodesInFavourites.includes(bankDataRow.ifsc)
+              }"
+              (click)="manageFavourites($event, bankDataRow)"
+            ></i>
           </td>
+          <td>{{ bankDataRow.bank_name }}</td>
+          <td>{{ bankDataRow.branch }}</td>
+          <td>{{ bankDataRow.ifsc }}</td>
+          <td>{{ bankDataRow.address }}</td>
         </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="5">
-            <div class="footer-actions">
-              <div class="data-selector">
-                Show
-                <select
-                  [(ngModel)]="pageSize"
-                  (ngModelChange)="changePageSize($event)"
-                >
-                  <option>10</option>
-                  <option>15</option>
-                  <option>20</option>
-                </select>
-              </div>
-              <div class="page-indicator">
-                {{ (pageIndex - 1) * pageSize + 1 }} -
-                {{ pageIndex * pageSize >  this.bankDataMaster.length ? this.bankDataMaster.length : pageIndex * pageSize}} of {{ this.bankDataMaster.length }}
-              </div>
-              <div class="pagination-buttons">
-                <button
-                  [attr.disabled]="pageIndex === 1 ? 'disabled' : null"
-                  (click)="decrementIndex()"
-                >
-                  <i class="fas fa-chevron-left"></i>
-                </button>
-                <button
-                  [attr.disabled]="
-                    bankDataMaster.length / pageIndex < pageSize
-                      ? 'disabled'
-                      : null
-                  "
-                  (click)="incrementIndex()"
-                >
-                  <i class="fas fa-chevron-right"></i>
-                </button>
-              </div>
+      </ng-container>
+      <tr *ngIf="!isLoading && !bankData.length">
+        <td colspan="5">
+          <div class="u-textCenter">
+            No Data Found
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="isLoading">
+        <td colspan="5">
+          <div class="u-textCenter">
+            Loading...
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5">
+          <div class="footer-actions">
+            <div class="data-selector">
+              Show
+              <select
+                [(ngModel)]="pageSize"
+                (ngModelChange)="changePageSize($event)"
+              >
+                <option>10</option>
+                <option>15</option>
+                <option>20</option>
+              </select>
             </div>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
+            <div class="page-indicator">
+              {{ (pageIndex - 1) * pageSize + 1 }} -
+              {{
+                pageIndex * pageSize > totalData
+                  ? totalData
+                  : pageIndex * pageSize
+              }}
+              of {{ totalData }}
+            </div>
+            <div class="pagination-buttons">
+              <button
+                [attr.disabled]="pageIndex === 1 ? 'disabled' : null"
+                (click)="decrementIndex()"
+              >
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button
+                [attr.disabled]="
+                  totalData / pageIndex < pageSize ? 'disabled' : null
+                "
+                (click)="incrementIndex()"
+              >
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

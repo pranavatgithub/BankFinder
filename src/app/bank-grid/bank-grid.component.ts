@@ -23,6 +23,7 @@ export class BankGridComponent implements OnInit {
   public searchKeyWord: string;
   public favourites: IBankData[] = [];
   public ifscCodesInFavourites: string[];
+  public totalData = 0;
 
   constructor(
     private appComponentService: AppComponentService,
@@ -75,6 +76,8 @@ export class BankGridComponent implements OnInit {
         return rowUnderFilter;
       });
     }
+    this.totalData = this.bankData.length;
+
 
     this.bankData = this.bankData.slice(
       (this.pageIndex - 1) * this.pageSize, ((this.pageIndex - 1) * this.pageSize) + this.pageSize);
